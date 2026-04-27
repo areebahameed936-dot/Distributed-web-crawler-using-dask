@@ -1,0 +1,675 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🎨 Digital Trends Analyst | Custom Palette Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #2C2B30;
+            min-height: 100vh;
+            padding: 30px;
+            color: #D6D6D6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            padding: 50px 30px;
+            margin-bottom: 40px;
+            background: #4F4F51;
+            border-radius: 30px;
+            border: 1px solid #F58F7C;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(245, 143, 124, 0.1) 0%, transparent 70%);
+            animation: gentlePulse 8s ease-in-out infinite;
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.05); }
+        }
+
+        h1 {
+            font-size: 3.5em;
+            background: linear-gradient(135deg, #F2C4CE 0%, #F58F7C 50%, #F2C4CE 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            color: #D6D6D6;
+            font-size: 1.2em;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(245, 143, 124, 0.2);
+            border: 1px solid #F58F7C;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.85em;
+            margin-top: 15px;
+            color: #F2C4CE;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: #4F4F51;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid #F58F7C;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(245, 143, 124, 0.2);
+            border-color: #F2C4CE;
+        }
+
+        .stat-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #D6D6D6;
+            margin-bottom: 10px;
+        }
+
+        .stat-number {
+            font-size: 2.8em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #F2C4CE 0%, #F58F7C 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .stat-unit {
+            font-size: 0.8em;
+            color: #D6D6D6;
+            margin-top: 5px;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 1.8em;
+            margin: 40px 0 25px 0;
+            padding-left: 20px;
+            border-left: 5px solid #F58F7C;
+            background: linear-gradient(135deg, #F2C4CE 0%, #F58F7C 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Keywords Container */
+        .keywords-container {
+            background: #4F4F51;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid #F58F7C;
+        }
+
+        .keyword {
+            display: inline-block;
+            background: rgba(214, 214, 214, 0.1);
+            color: #D6D6D6;
+            padding: 10px 20px;
+            margin: 8px;
+            border-radius: 40px;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+            border: 1px solid #F58F7C;
+            cursor: pointer;
+        }
+
+        .keyword:hover {
+            transform: scale(1.05);
+            background: rgba(245, 143, 124, 0.2);
+            border-color: #F2C4CE;
+            color: #F2C4CE;
+            box-shadow: 0 5px 15px rgba(245, 143, 124, 0.3);
+        }
+
+        .keyword-rank {
+            background: linear-gradient(135deg, #F58F7C 0%, #F2C4CE 100%);
+            color: #2C2B30;
+            font-weight: bold;
+            border: none;
+        }
+
+        .keyword-rank:hover {
+            background: linear-gradient(135deg, #F2C4CE 0%, #F58F7C 100%);
+            color: #2C2B30;
+            transform: scale(1.05);
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(79, 79, 81, 0.6);
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .data-table th {
+            background: #4F4F51;
+            padding: 15px 20px;
+            text-align: left;
+            font-weight: 600;
+            color: #F2C4CE;
+            border-bottom: 2px solid #F58F7C;
+            font-size: 1em;
+        }
+
+        .data-table td {
+            padding: 12px 20px;
+            border-bottom: 1px solid rgba(245, 143, 124, 0.2);
+            color: #D6D6D6;
+        }
+
+        .data-table tr:hover {
+            background: rgba(245, 143, 124, 0.1);
+        }
+
+        /* Two Column Layout */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: rgba(79, 79, 81, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid #F58F7C;
+        }
+
+        .glass-card h3 {
+            color: #F2C4CE;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            border-bottom: 2px solid #F58F7C;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            height: 8px;
+            background: #2C2B30;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #F58F7C, #F2C4CE);
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            background: #4F4F51;
+            border-radius: 20px;
+            font-size: 0.85em;
+            color: #D6D6D6;
+            border: 1px solid #F58F7C;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body { padding: 15px; }
+            h1 { font-size: 2em; }
+            .two-column { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #2C2B30;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #F58F7C 0%, #F2C4CE 100%);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #F2C4CE;
+        }
+
+        /* Button Style */
+        .export-btn {
+            background: linear-gradient(135deg, #F58F7C 0%, #F2C4CE 100%);
+            color: #2C2B30;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .export-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(245, 143, 124, 0.4);
+            background: linear-gradient(135deg, #F2C4CE 0%, #F58F7C 100%);
+        }
+
+        /* Highlight text */
+        .highlight {
+            color: #F2C4CE;
+        }
+
+        .accent-text {
+            color: #F58F7C;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- Header -->
+    <div class="header">
+        <div class="stat-icon">🎨</div>
+        <h1>Digital Trends Analyst</h1>
+        <p class="subtitle">Distributed Web Crawler powered by Dask</p>
+        <div class="badge">Real-time Intelligence • Word Frequency Analysis • Trend Detection</div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">🌐</div>
+            <div class="stat-label">Pages Crawled</div>
+            <div class="stat-number">5</div>
+            <div class="stat-unit">Success: 5/5</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">📝</div>
+            <div class="stat-label">Total Words</div>
+            <div class="stat-number">3,666</div>
+            <div class="stat-unit">Unique: 2,200</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">💜</div>
+            <div class="stat-label">Unique Words</div>
+            <div class="stat-number">2,200</div>
+            <div class="stat-unit">Vocabulary Size</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">⏱️</div>
+            <div class="stat-label">Crawl Time</div>
+            <div class="stat-number">1.5s</div>
+            <div class="stat-unit">for 5 URLs</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🖥️</div>
+            <div class="stat-label">Dask Workers</div>
+            <div class="stat-number">4</div>
+            <div class="stat-unit">Distributed Processing</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-label">Avg Frequency</div>
+            <div class="stat-number">1.7</div>
+            <div class="stat-unit">words per unique</div>
+        </div>
+    </div>
+
+    <!-- TOP 15 WORDS Section -->
+    <div class="section-title">🏆 Top 15 Most Frequent Words</div>
+    <div class="keywords-container">
+<span class="keyword keyword-rank">#1 ago (100)</span> <span class="keyword keyword-rank">#2 days (53)</span> <span class="keyword keyword-rank">#3 hours (51)</span> <span class="keyword keyword-rank">#4 points (30)</span> <span class="keyword keyword-rank">#5 hide (30)</span> <span class="keyword keyword-rank">#6 tech (21)</span> <span class="keyword keyword-rank">#7 brief (20)</span> <span class="keyword keyword-rank">#8 anthony (19)</span> <span class="keyword keyword-rank">#9 startups (18)</span> <span class="keyword keyword-rank">#10 data (13)</span> <span class="keyword keyword-rank">#11 techcrunch (13)</span> <span class="keyword keyword-rank">#12 apps (12)</span> <span class="keyword keyword-rank">#13 social (11)</span> <span class="keyword keyword-rank">#14 startup (11)</span> <span class="keyword keyword-rank">#15 anthropic (11)</span> 
+    </div>
+
+    <!-- TOP 20 WORDS Section -->
+    <div class="section-title">📊 Top 20 Most Frequent Words (Detailed)</div>
+    <div class="glass-card">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Word</th>
+                    <th>Frequency</th>
+                    <th>Visualization</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td style="color: #F58F7C; font-weight: bold;">#1</td>
+                    <td><strong>ago</strong></td>
+                    <td>100</td>
+                    <td style="width: 40%;"><div class="progress-bar"><div class="progress-fill" style="width: 100.0%;"></div></div></td>
+                </tr>
+
+                <tr>
+                    <td style="color: #F58F7C; font-weight: bold;">#2</td>
+                    <td><strong>days</strong></td>
+                    <td>53</td>
+                    <td style="width: 40%;"><div class="progress-bar"><div class="progress-fill" style="width: 53.0%;"></div></div></td>
+                </tr>
+
+                <tr>
+                    <td style="color: #F58F7C; font-weight: bold;">#3</td>
+                    <td><strong>hours</strong></td>
+                    <td>51</td>
+                    <td style="width: 40%;"><div class="progress-bar"><div class="progress-fill" style="width: 51.0%;"></div></div></td>
+                </tr>
+
+                <tr>
+                    <td style="color: #F58F7C; font-weight: bold;">#4</td>
+                    <td><strong>points</strong></td>
+                    <td>30</td>
+                    <td style="width: 40%;"><div class="progress-bar"><div class="progress-fill" style="width: 30.0%;"></div></div></td>
+                </tr>
+
+                <tr>
+                    <td style="color: #F58F7C; font-weight: bold;">#5</td>
+                    <td><strong>hide</strong></td>
+                    <td>30</td>
+                    <td style="width: 40%;"><div class="progress-bar"><div class="progress-fill" style="width: 30.0%;"></div></div></td>
+                </tr>
+
+                <tr>
+                    <td style="color: #F58F7C; font-weight: bold;">#6</td>
+                    <td><strong>tech</strong></td>
+                    <td>21</td>
+                    <td style="width: 40%;"><div class="progress-bar"><div class="progress-fill" style="width: 21.0%;"></div></div></td>
+                </tr>
+
+                <tr>
+                    <td style="color: #F58F7C; font-weight: bold;">#7</td>
+                    <td><strong>brief</strong></td>
+                    <td>20</td>
+                    <td style="width: 40%;"><div class="progress-bar"><div class="progress-fill" style="width: 20.0%;"></div></div></td>
+                </tr>
+
+                <tr>
+                    <td style="color: #F58F7C; font-weight: bold;">#8</td>
+                    <td><strong>anthony</strong></td>
+                    <td>19</td>
+                    <td style="width: 40%;"><div class="progress-bar"><div class="progress-fill" style="width: 19.0%;"></div></div></td>
+                </tr>
+
+                <tr>
+                    <td style="color: #F58F7C; font-weight: bold;">#9</td>
+                    <td><strong>startups</strong></td>
+                    <td>18</td>
+                    <td style="width: 40%;"><div class="progress-bar"><div class="progress-fill" style="width: 18.0%;"></div></div></td>
+                </tr>
+
+                <tr>
+                    <td style="color: #F58F7C; font-weight: bold;">#10</td>
+                    <td><strong>data</strong></td>
+                    <td>13</td>
+                    <td style="width: 40%;"><div class="progress-bar"><div class="progress-fill" style="width: 13.0%;"></div></div></td>
+                </tr>
+
+                <tr>
+                    <td style="color: #F58F7C; font-weight: bold;">#11</td>
+                    <td><strong>techcrunch</strong></td>
+                    <td>13</td>
+                    <td style="width: 40%;"><div class="progress-bar"><div class="progress-fill" style="width: 13.0%;"></div></div></td>
+                </tr>
+
+                <tr>
+                    <td style="color: #F58F7C; font-weight: bold;">#12</td>
+                    <td><strong>apps</strong></td>
+                    <td>12</td>
+                    <td style="width: 40%;"><div class="progress-bar"><div class="progress-fill" style="width: 12.0%;"></div></div></td>
+                </tr>
+
+                <tr>
+                    <td style="color: #F58F7C; font-weight: bold;">#13</td>
+                    <td><strong>social</strong></td>
+                    <td>11</td>
+                    <td style="width: 40%;"><div class="progress-bar"><div class="progress-fill" style="width: 11.0%;"></div></div></td>
+                </tr>
+
+                <tr>
+                    <td style="color: #F58F7C; font-weight: bold;">#14</td>
+                    <td><strong>startup</strong></td>
+                    <td>11</td>
+                    <td style="width: 40%;"><div class="progress-bar"><div class="progress-fill" style="width: 11.0%;"></div></div></td>
+                </tr>
+
+                <tr>
+                    <td style="color: #F58F7C; font-weight: bold;">#15</td>
+                    <td><strong>anthropic</strong></td>
+                    <td>11</td>
+                    <td style="width: 40%;"><div class="progress-bar"><div class="progress-fill" style="width: 11.0%;"></div></div></td>
+                </tr>
+
+                <tr>
+                    <td style="color: #F58F7C; font-weight: bold;">#16</td>
+                    <td><strong>best</strong></td>
+                    <td>11</td>
+                    <td style="width: 40%;"><div class="progress-bar"><div class="progress-fill" style="width: 11.0%;"></div></div></td>
+                </tr>
+
+                <tr>
+                    <td style="color: #F58F7C; font-weight: bold;">#17</td>
+                    <td><strong>min</strong></td>
+                    <td>11</td>
+                    <td style="width: 40%;"><div class="progress-bar"><div class="progress-fill" style="width: 11.0%;"></div></div></td>
+                </tr>
+
+                <tr>
+                    <td style="color: #F58F7C; font-weight: bold;">#18</td>
+                    <td><strong>media</strong></td>
+                    <td>9</td>
+                    <td style="width: 40%;"><div class="progress-bar"><div class="progress-fill" style="width: 9.0%;"></div></div></td>
+                </tr>
+
+                <tr>
+                    <td style="color: #F58F7C; font-weight: bold;">#19</td>
+                    <td><strong>say</strong></td>
+                    <td>9</td>
+                    <td style="width: 40%;"><div class="progress-bar"><div class="progress-fill" style="width: 9.0%;"></div></div></td>
+                </tr>
+
+                <tr>
+                    <td style="color: #F58F7C; font-weight: bold;">#20</td>
+                    <td><strong>tim</strong></td>
+                    <td>9</td>
+                    <td style="width: 40%;"><div class="progress-bar"><div class="progress-fill" style="width: 9.0%;"></div></div></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Two Column Layout -->
+    <div class="two-column">
+        <!-- LAST 20 WORDS -->
+        <div class="glass-card">
+            <h3>🔻 Last 20 Words (Rare)</h3>
+            <div style="max-height: 400px; overflow-y: auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr><th>Word</th><th>Frequency</th></tr>
+                    </thead>
+                    <tbody>
+<tr><td class='highlight'>cocaineiconplayvideobmws</td><td>1</td></tr><tr><td class='highlight'>soundsiconplaytech</td><td>1</td></tr><tr><td class='highlight'>questionsiconplayvideomaga</td><td>1</td></tr><tr><td class='highlight'>assassination</td><td>1</td></tr><tr><td class='highlight'>attempt</td><td>1</td></tr><tr><td class='highlight'>stagediconplayvideohyundais</td><td>1</td></tr><tr><td class='highlight'>ioniq</td><td>1</td></tr><tr><td class='highlight'>hothatch</td><td>1</td></tr><tr><td class='highlight'>looks</td><td>1</td></tr><tr><td class='highlight'>beat</td><td>1</td></tr><tr><td class='highlight'>bydiconplayvideothe</td><td>1</td></tr><tr><td class='highlight'>legaleagle</td><td>1</td></tr><tr><td class='highlight'>cinematic</td><td>1</td></tr><tr><td class='highlight'>representationsiconplayvideofield</td><td>1</td></tr><tr><td class='highlight'>pillows</td><td>1</td></tr><tr><td class='highlight'>fix</td><td>1</td></tr><tr><td class='highlight'>pain</td><td>1</td></tr><tr><td class='highlight'>improve</td><td>1</td></tr><tr><td class='highlight'>sleepiconplaytech</td><td>1</td></tr><tr><td class='highlight'>questions</td><td>1</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- WORD STATISTICS -->
+        <div class="glass-card">
+            <h3>📈 Word Statistics Summary</h3>
+            <table class="data-table">
+                <tr>
+                    <td><strong>Total Unique Words:</strong></td>
+                    <td class="accent-text">2,200</td>
+                </tr>
+                <tr>
+                    <td><strong>Total Word Occurrences:</strong></td>
+                    <td class="accent-text">3,666</td>
+                </tr>
+                <tr>
+                    <td><strong>Most Frequent Word:</strong></td>
+                    <td class="accent-text">'ago' (100 times)</td>
+                </tr>
+                <tr>
+                    <td><strong>Least Frequent Word:</strong></td>
+                    <td class="accent-text">'questions' (1 time)</td>
+                </tr>
+                <tr>
+                    <td><strong>Average Frequency:</strong></td>
+                    <td class="accent-text">1.67</td>
+                </tr>
+                <tr>
+                    <td><strong>Vocabulary Richness:</strong></td>
+                    <td class="accent-text">60.01%</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- SAMPLE ARTICLES -->
+    <div class="section-title">📄 Sample Analyzed Articles</div>
+    <div class="glass-card" style="overflow-x: auto;">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Source</th>
+                    <th>Top Keywords</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td style="max-width: 350px;">BBC Technology | Technology, Health, Environment, AI...</td>
+                    <td class="highlight">www.bbc</td>
+                    <td style="max-width: 250px;">bbc, technology, technology, health, environment</td>
+                </tr>
+
+                <tr>
+                    <td style="max-width: 350px;">TechCrunch | Startup and Technology News...</td>
+                    <td class="highlight">techcrunch</td>
+                    <td style="max-width: 250px;">techcrunch, startup, technology, news, strictlyvc</td>
+                </tr>
+
+                <tr>
+                    <td style="max-width: 350px;">Hacker News...</td>
+                    <td class="highlight">ycombinator</td>
+                    <td style="max-width: 250px;">hacker, newshacker, newsnew, past, comments</td>
+                </tr>
+
+                <tr>
+                    <td style="max-width: 350px;">Tech | The Verge...</td>
+                    <td class="highlight">www.theverge</td>
+                    <td style="max-width: 250px;">tech, vergeskip, main, contentthe, homepagethe</td>
+                </tr>
+
+                <tr>
+                    <td style="max-width: 350px;">WIRED - The Latest in Technology, Science, Culture and Business | WIRED...</td>
+                    <td class="highlight">www.wired</td>
+                    <td style="max-width: 250px;">wired, latest, technology, science, culture</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <!-- FREQUENCY DISTRIBUTION INSIGHT -->
+    <div class="section-title">📊 Word Frequency Distribution</div>
+    <div class="glass-card">
+        <p>Based on <span class="accent-text">3,666</span> total word occurrences across <span class="accent-text">5</span> articles:</p>
+        <ul style="margin-top: 15px; margin-left: 20px; line-height: 1.8;">
+            <li>✨ The word <span class="highlight">'ago'</span> appears most frequently (<span class="accent-text">100</span> times)</li>
+            <li>✨ Top 20 words account for <span class="accent-text">462</span> occurrences</li>
+            <li>✨ There are <span class="accent-text">1666</span> words that appear only once</li>
+            <li>✨ The vocabulary is <span class="accent-text">60.01%</span> unique</li>
+        </ul>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>🎨 <strong>Digital Trends Analyst</strong> | Powered by Dask Distributed Computing</p>
+        <p>Color Palette: #2C2B30 • #4F4F51 • #D6D6D6 • #F2C4CE • #F58F7C</p>
+        <p>Sources: bbc_tech, techcrunch, hacker_news, the_verge, wired | Crawled with 4 Dask Workers</p>
+        <p>Generated: 2026-04-27 12:09:45</p>
+        <button class="export-btn" onclick="window.print()">📥 Export Dashboard as PDF</button>
+    </div>
+
+</div>
+</body>
+</html>
