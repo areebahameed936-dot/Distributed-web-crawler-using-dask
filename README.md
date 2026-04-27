@@ -23,5 +23,4 @@ A high-performance distributed web crawler that fetches web pages in parallel us
 ▶️ How to Run
 
 1. Open Google Colab  
-https://colab.research.google.com/
-https://colab.research.google.com/drive/1ns7_p7PNhx41YPVImXGpM9VMGRus6Zpj#scrollTo=ugdTh0dGU1K2
+(https://colab.research.google.com/drive/1RKlGeebvv2gD2hj7PcCDdczHxzyr6P9R#scrollTo=2tRiaA645xyG)
